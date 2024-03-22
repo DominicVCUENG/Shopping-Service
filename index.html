@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto flex items-center justify-between py-4 px-8">
+            <h1 class="text-3xl font-bold text-gray-800">Your Logo</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="text-gray-800 hover:text-gray-600">Home</a></li>
+                    <li><a href="#" class="text-gray-800 hover:text-gray-600">Shop</a></li>
+                    <li><a href="#" class="text-gray-800 hover:text-gray-600">About</a></li>
+                    <li><a href="#" class="text-gray-800 hover:text-gray-600">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto my-8">
+
+        <!-- Shopping View -->
+        <section id="shopping-view" class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Shopping View</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="shopping-products-container">
+                <!-- Product Cards will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Store View -->
+        <section id="store-view" class="mb-8 hidden">
+            <h2 class="text-2xl font-semibold mb-4">Store View</h2>
+            <div id="add-product-form">
+                <input type="number" id="productID" placeholder="Product ID">
+                <input type="text" id="productName" placeholder="Product Name">
+                <input type="number" id="productPrice" placeholder="Product Price">
+                <input type="number" id="productQuantity" placeholder="Product Quantity">
+                <button onclick="addProduct()">Add Product</button>
+            </div>
+
+            <div id="store-products-container">
+                <!-- Product Cards will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Cart View -->
+        <section id="cart-view" class="mb-8 hidden">
+            <h2 class="text-2xl font-semibold mb-4">Your Cart</h2>
+            <div id="cart-items-container">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+        </section>
+
+        <div class="switch-view-btns">
+            <button onclick="switchView('shopping-view')">Shopping</button>
+            <button onclick="switchView('store-view')">Store</button>
+            <button onclick="switchView('cart-view')">Cart</button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+
+</html>
