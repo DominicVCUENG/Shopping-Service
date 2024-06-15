@@ -1,3 +1,37 @@
 #add-product-form {
-    margin-bottom: 10px;
+    text-align: center;
+    margin: 30px;
+}
+
+.add-product-input {
+    margin: 10px;
+}
+
+#productButton {
+    text-decoration: underline;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+main {
+    margin-bottom: 500px;
+}
+
+.container {
+    padding: 0px 40px;
+}
+
+#content {
+    margin-bottom: 200px;
+}
+
+.cart-item:not(:last-child) {
+    border-bottom: 1px solid #d1d5db; /* Tailwind's gray-300 */
+}
+
+#cart-items-list {
+    padding: 0px 50px;
 }

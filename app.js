@@ -42,6 +42,7 @@ async function addToCart(productId) {
         });
         const data = await response.json();
         alert(data.message);
+        fetchAndRenderShopping()
     } catch (error) {
         console.error('Error adding to cart:', error);
     }
@@ -82,10 +83,10 @@ async function fetchAndRenderStore() {
 
 // Function to add a product to the store
 async function addProduct() {
-    const productID = document.getElementById('productID').value;
+    const productID = parseInt(document.getElementById('productID').value);
     const productName = document.getElementById('productName').value;
-    const productPrice = document.getElementById('productPrice').value;
-    const productQuantity = document.getElementById('productQuantity').value;
+    const productPrice = parseFloat(document.getElementById('productPrice').value);
+    const productQuantity = parseInt(document.getElementById('productQuantity').value);
 
     try {
         const response = await fetch('https://product-service-2ki2.onrender.com/products', {
@@ -102,6 +103,9 @@ async function addProduct() {
         });
         if (response.status === 409) {
             alert('Product with this ID already exists');
+        } else if (response.status === 400) {
+            const data = await response.json();
+            alert(data.error)
         } else {
             const data = await response.json();
             alert(data.message);
@@ -133,6 +137,13 @@ async function fetchAndRenderCart() {
                 `;
                 cartItemsContainer.appendChild(cartItem);
             });
+            const checkoutButton = document.createElement('button');
+            checkoutButton.innerHTML = 'Checkout';
+            checkoutButton.classList.add('mt-4', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-blue-600');
+            checkoutButton.addEventListener('click', () => {
+                window.location.href = 'views/checkout.html';
+            });
+            cartItemsContainer.appendChild(checkoutButton);
         }
         else {
             const emptyCartText = document.createElement('div');
@@ -172,6 +183,27 @@ function switchView(view) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    fetchAndRenderShopping();
+document.addEventListener('DOMContentLoaded', async function () {
+    const loadingMessage = document.createElement('div');
+    loadingMessage.id = 'loading-message';
+    loadingMessage.innerText = "One sec while we wake up our servers";
+    loadingMessage.classList.add('text-center', 'text-gray-600', 'mt-4');
+    document.body.appendChild(loadingMessage);
+
+    let loadingTimeout = setTimeout(() => {
+        document.getElementById('loading-message').style.display = 'block';
+    }, 2000);
+
+    try {
+        await fetchAndRenderStore();
+
+        clearTimeout(loadingTimeout);
+        document.getElementById('loading-message').style.display = 'none';
+        console.log("Store data fetched and rendered successfully");
+    } catch (error) {
+        // Handle error if fetching data fails
+        clearTimeout(loadingTimeout);
+        document.getElementById('loading-message').innerText = "Failed to fetch data. Please try again later.";
+        console.error('Error fetching store data:', error);
+    }
 });
