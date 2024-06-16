@@ -104,3 +104,9 @@ main {
 textarea {
     resize: vertical;
 }
+
+@media only screen and (max-width: 1000px){
+    #cart-items-list {
+        padding: 0px 0px;
+    }
+}
