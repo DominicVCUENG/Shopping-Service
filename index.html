@@ -9,17 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans vertical-lines-background">
     <!-- Header -->
     <header class="bg-white shadow-md">
-        <div class="container mx-auto flex items-center justify-between py-4 px-8">
+        <div class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
             <h1 class="text-3xl font-bold text-gray-800">DominicVCUENG</h1>
             <nav>
-                <ul class="flex space-x-4">
-                    <li><button onclick="switchView('store-view')" class="text-gray-800 hover:text-gray-600">Home</button></li>
-                    <li><button onclick="switchView('shopping-view')" class="text-gray-800 hover:text-gray-600">Shop</a></li>
-                    <li><a href="views/about.html" class="text-gray-800 hover:text-gray-600">About</a></li>
-                    <li><a href="views/contact.html" class="text-gray-800 hover:text-gray-600">Contact</a></li>
+                <ul class="flex flex-wrap space-x-4">
+                    <li><button onclick="switchView('store-view')" class="text-gray-800 hover:text-gray-600 leading-loose">Home</button></li>
+                    <li><button onclick="switchView('shopping-view')" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</button></li>
+                    <li><a href="views/about.html" class="text-gray-800 hover:text-gray-600 leading-loose">About</a></li>
+                    <li><a href="views/contact.html" class="text-gray-800 hover:text-gray-600 leading-loose">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -40,10 +40,10 @@
             <section id="store-view" class="mb-8">
                 <h2 class="text-2xl font-semibold mb-4">Store View</h2>
                 <div id="add-product-form">
-                    <input type="number" id="productID" placeholder="Product ID" class="add-product-input">
-                    <input type="text" id="productName" placeholder="Product Name" class="add-product-input">
-                    <input type="number" id="productPrice" placeholder="Product Price" class="add-product-input">
-                    <input type="number" id="productQuantity" placeholder="Product Quantity" class="add-product-input">
+                    <input type="number" id="productID" placeholder="Product ID" class="add-product-input shadow-md">
+                    <input type="text" id="productName" placeholder="Product Name" class="add-product-input shadow-md">
+                    <input type="number" id="productPrice" placeholder="Product Price" class="add-product-input shadow-md">
+                    <input type="number" id="productQuantity" placeholder="Product Quantity" class="add-product-input shadow-md">
                     <button onclick="addProduct()" id="productButton" class="add-product-input">Add Product</button>
                 </div>
 
@@ -63,14 +63,14 @@
             <div class="switch-view-btns">
                 <button onclick="switchView('store-view')">Store</button>
                 <button onclick="switchView('shopping-view')">Shopping</button>
-                <button onclick="switchView('cart-view')">Cart</button>
+                <button id="cart-button" onclick="switchView('cart-view')">Cart</button>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-4 footer">
-        <div class="container mx-auto text-center">
+        <div class="mx-auto text-center">
             <p>&copy; 2024 Your Company. All rights reserved.</p>
         </div>
     </footer>

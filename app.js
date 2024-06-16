@@ -1,7 +1,7 @@
 // Function to fetch products for shopping and render them
 async function fetchAndRenderShopping() {
     try {
-        const response = await fetch(`https://product-service-2ki2.onrender.com/products`);
+        const response = await fetch(`https://product-service-n5sp.onrender.com/products`);
         const data = await response.json();
         const products = data.products;
 
@@ -46,12 +46,34 @@ async function addToCart(productId) {
     } catch (error) {
         console.error('Error adding to cart:', error);
     }
+
+    const cartButton = document.getElementById('cart-button');
+
+    try {
+        console.log('fetching cart')
+        const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
+        const data = await response.json();
+
+        if (data.items) {
+            const itemCount = Object.keys(data.items).length;
+            if (itemCount > 0) {
+                cartButton.innerText = `Cart(${itemCount})`;
+            } else {
+                cartButton.innerText = 'Cart';
+            }
+        } else {
+            console.log("Did not see any items")
+        }
+        console.log("Cart fetched successfully");
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+    }
 }
 
 // Function to fetch products from stock and render them
 async function fetchAndRenderStore() {
     try {
-        const response = await fetch(`https://product-service-2ki2.onrender.com/products`);
+        const response = await fetch(`https://product-service-n5sp.onrender.com/products`);
         const data = await response.json();
         const products = data.products;
 
@@ -89,7 +111,7 @@ async function addProduct() {
     const productQuantity = parseInt(document.getElementById('productQuantity').value);
 
     try {
-        const response = await fetch('https://product-service-2ki2.onrender.com/products', {
+        const response = await fetch('https://product-service-n5sp.onrender.com/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -119,8 +141,18 @@ async function addProduct() {
 // Function to fetch and render cart items
 async function fetchAndRenderCart() {
     try {
+        let loadingTimeout = setTimeout(() => {
+            document.getElementById('loading-message').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+        }, 1000);
+
         const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
         const data = await response.json();
+
+        clearTimeout(loadingTimeout);
+        document.getElementById('loading-message').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        console.log("Cart fetched and rendered successfully");
 
         const cartItemsContainer = document.getElementById('cart-items-container');
         cartItemsContainer.innerHTML = '';
@@ -186,19 +218,22 @@ function switchView(view) {
 document.addEventListener('DOMContentLoaded', async function () {
     const loadingMessage = document.createElement('div');
     loadingMessage.id = 'loading-message';
-    loadingMessage.innerText = "One sec while we wake up our servers";
+    loadingMessage.innerText = "One sec while we wake up our servers...";
     loadingMessage.classList.add('text-center', 'text-gray-600', 'mt-4');
     document.body.appendChild(loadingMessage);
 
     let loadingTimeout = setTimeout(() => {
+        document.getElementById('content').style.display = 'none';
         document.getElementById('loading-message').style.display = 'block';
-    }, 2000);
+    }, 1000);
 
     try {
+        console.log("fetching store");
         await fetchAndRenderStore();
 
         clearTimeout(loadingTimeout);
         document.getElementById('loading-message').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
         console.log("Store data fetched and rendered successfully");
     } catch (error) {
         // Handle error if fetching data fails
@@ -206,4 +241,27 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('loading-message').innerText = "Failed to fetch data. Please try again later.";
         console.error('Error fetching store data:', error);
     }
+
+    const cartButton = document.getElementById('cart-button');
+
+    try {
+        console.log('fetching cart')
+        const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
+        const data = await response.json();
+
+        if (data.items) {
+            const itemCount = Object.keys(data.items).length;
+            if (itemCount > 0) {
+                cartButton.innerText = `Cart(${itemCount})`;
+            } else {
+                cartButton.innerText = 'Cart';
+            }
+        } else {
+            console.log("Did not see any items")
+        }
+        console.log("Cart fetched successfully");
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+    }
+
 });

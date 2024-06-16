@@ -10,6 +10,17 @@
 #productButton {
     text-decoration: underline;
 }
+
+.vertical-lines-background {
+    background: repeating-linear-gradient(
+        to right,
+        #ffffff,
+        #ffffff 5px,  /* Adjusted for closer lines */
+        #f7f7f8 5px,
+        #f7f7f8 10px  /* Adjusted for closer lines */
+    );
+}
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -29,9 +40,67 @@ main {
 }
 
 .cart-item:not(:last-child) {
-    border-bottom: 1px solid #d1d5db; /* Tailwind's gray-300 */
+    border-bottom: 1px solid #d1d5db;
+    /* Tailwind's gray-300 */
 }
 
 #cart-items-list {
     padding: 0px 50px;
+}
+
+.about-paragraph {
+    margin-top: 50px;
+    line-height: 1.6; /* Adjust as needed */
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.contact-info {
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    color: #4267B2;
+    font-size: 24px;
+}
+
+.social-icon:hover {
+    color: #254F7B;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4267B2;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #254F7B; /* Darker Facebook blue on hover */
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
 }

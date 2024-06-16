@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <title>Contact</title>
     <link rel="stylesheet" type="text/css" href="../styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9338fc2397.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans vertical-lines-background">
     <!-- Header -->
     <header class="bg-white shadow-md">
-        <div class="container mx-auto flex items-center justify-between py-4 px-8">
+        <div class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
             <h1 class="text-3xl font-bold text-gray-800">DominicVCUENG</h1>
             <nav>
                 <ul class="flex space-x-4">
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600">Home</a></li>
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600">Shop</a></li>
-                    <li><a href="about.html" class="text-gray-800 hover:text-gray-600">About</a></li>
-                    <li><a href="contact.html" class="text-gray-800 hover:text-gray-600">Contact</a></li>
+                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Home</a></li>
+                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</a></li>
+                    <li><a href="about.html" class="text-gray-800 hover:text-gray-600 leading-loose">About</a></li>
+                    <li><a href="contact.html" class="text-gray-800 hover:text-gray-600 leading-loose">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -28,7 +29,27 @@
     <main class="container mx-auto my-8">
         <div id="content" class="container">
             <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
-
+    
+            <div class="contact-info">
+                <p><i class="fas fa-paper-plane"></i> <a href="mailto:dominicmason60@gmail.com">dominicmason60@gmail.com</a></p>
+                <p><i class="fas fa-phone-square"></i> <a href="tel:+18046596508">804-659-6508</a></p>
+                <div class="social-icons mt-4">
+                    <a href="https://www.facebook.com/dominic.mason.77/" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/dominic-mason-929a04211/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+    
+            <a href="../Professional Resume 2023.pdf" download class="btn btn-primary mt-4">Download CV</a>
+    
+            <form name="submit-to-google-sheet" autocomplete="on" class="mt-8">
+                <input type="text" name="Name" placeholder="Your Name" required autocomplete="on" class="input-field">
+                <input type="email" name="Email" placeholder="Your Email" required autocomplete="on" class="input-field">
+                <textarea name="Message" rows="6" placeholder="Your Message" class="input-field"></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+    
+            <span id="msg" class="mt-4"></span>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -38,6 +59,24 @@
         </div>
     </footer>
 
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz6fFv3IrKWwQMwRxc-rHuKt5uGkcHraFVWn1YuXaVni8l8jZ8PFIx2GFK_xIhk1aKlrg/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const msg = document.getElementById("msg")
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(response => {
+                    msg.innerHTML = "Message Sent successfully"
+                    setTimeout(function () {
+                        msg.innerHTML = ""
+                    }, 3000)
+                    form.reset()
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
 </body>
 
 </html>

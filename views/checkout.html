@@ -9,17 +9,17 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans vertical-lines-background">
     <!-- Header -->
     <header class="bg-white shadow-md">
-        <div class="container mx-auto flex items-center justify-between py-4 px-8">
+        <div class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
             <h1 class="text-3xl font-bold text-gray-800">DominicVCUENG</h1>
             <nav>
                 <ul class="flex space-x-4">
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600">Home</a></li>
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600">Shop</a></li>
-                    <li><a href="about.html" class="text-gray-800 hover:text-gray-600">About</a></li>
-                    <li><a href="contact.html" class="text-gray-800 hover:text-gray-600">Contact</a></li>
+                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Home</a></li>
+                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</a></li>
+                    <li><a href="about.html" class="text-gray-800 hover:text-gray-600 leading-loose">About</a></li>
+                    <li><a href="contact.html" class="text-gray-800 hover:text-gray-600 leading-loose">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -109,11 +109,7 @@
             try {
                 for (const itemId in cartItems) {
                     const item = cartItems[itemId];
-
-                    console.log("item")
-                    console.log(itemId)
-                    console.log(item.quantity)
-                    const response = await fetch(`https://product-service-2ki2.onrender.com/products/${itemId}/remove_quantity`, {
+                    const response = await fetch(`https://product-service-n5sp.onrender.com/products/${itemId}/remove_quantity`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
