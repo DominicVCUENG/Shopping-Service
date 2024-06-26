@@ -21,33 +21,32 @@ This project demonstrates a simple online shopping website where users can brows
 1. Clone the repository:
 
 ```
-git clone https://github.com/yourusername/shopping-website.git
+git clone https://github.com/DominicVCUENG/Shopping-Service
 ```
 
 2. Navigate to the project directory:
 
 ```
-cd shopping-website
+cd Shopping-Service
 ```
 
 3. Open 'index.html' in your web browser to view the website.
 
 ## Project Structure
-
 - index.html: The main landing page.
 
 - views/: Contains additional HTML files for other pages.
 
-- css/: Contains the CSS files for styling.
+- `styles.css`: A CSS file for styling.
 
-- js/: Contains JavaScript files for functionality.
+- `app.js`: A JavaScript file for functionality.
 
 ## Screenshots
 
-![Homepage](images/Store.png)
+<img src="images/Store.png" width="400">
 
-![Product Listing](images/Shop.png)
+<img src="images/Shop.png" width="400">
 
-![Shopping Cart](images/Cart.png)
+<img src="images/Cart.png" width="400">
 
-![Checkout Process](images/Checkout.png)
+<img src="images/Checkout.png" width="400">
