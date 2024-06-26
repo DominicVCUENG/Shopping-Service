@@ -43,10 +43,10 @@ cd Shopping-Service
 
 ## Screenshots
 
-<img src="images/Store.png" width="400">
+![Homepage](images/Store.png)
 
-<img src="images/Shop.png" width="400">
+![Product Listing](images/Shop.png)
 
-<img src="images/Cart.png" width="400">
+![Shopping Cart](images/Cart.png)
 
-<img src="images/Checkout.png" width="400">
+![Checkout Process](images/Checkout.png)
