@@ -1,5 +1,7 @@
 # Online Shopping Website
 
+[Live Site](https://dominicvcueng.github.io/Shopping-Service/)
+
 Welcome to the Online Shopping Website project! This repository contains the front-end code for a basic online shopping platform.
 
 ## Overview
