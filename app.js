@@ -32,8 +32,9 @@ async function fetchAndRenderShopping() {
 
 // Function to add a product to the cart
 async function addToCart(productId) {
+    const username = localStorage.getItem('username');
     try {
-        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/1/add/${productId}`, {
+        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}/add/${productId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,8 +51,7 @@ async function addToCart(productId) {
     const cartButton = document.getElementById('cart-button');
 
     try {
-        console.log('fetching cart')
-        const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
+        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}`);
         const data = await response.json();
 
         if (data.items) {
@@ -64,7 +64,6 @@ async function addToCart(productId) {
         } else {
             console.log("Did not see any items")
         }
-        console.log("Cart fetched successfully");
     } catch (error) {
         console.error('Error fetching cart items:', error);
     }
@@ -85,12 +84,18 @@ async function fetchAndRenderStore() {
         if (products && products.length > 0) {
             products.forEach(product => {
                 const productItem = document.createElement('div');
-                productItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'mb-4');
+                productItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'mb-4', 'store-items');
                 productItem.innerHTML = `
-                    <p class="text-lg font-semibold">${product.name}</p>
-                    <p class="text-gray-600">Quantity: ${product.quantity}</p>
-                    <p class="text-gray-600">Price: $${product.price}</p>
-                    <p class="text-gray-600">ID: ${product.id}</p>
+                    <div>
+                        <p class="text-lg font-semibold">${product.name}</p>
+                        <p class="text-gray-600">Quantity: ${product.quantity}</p>
+                        <p class="text-gray-600">Price: $${product.price}</p>
+                        <p class="text-gray-600">ID: ${product.id}</p>
+                    </div>
+                    <div class="quantity-elements">
+                        <input id="quantity-${product.id}" type="number" class="quantity-input shadow-md" value="1" min="1"></input>
+                        <button id="quantity-button-${product.id}" class="quantity-button" onclick="updateQuantity(${product.id})">Update Quantity</button>
+                    </div>
                 `;
                 storeContainer.appendChild(productItem);
             });
@@ -100,6 +105,53 @@ async function fetchAndRenderStore() {
         }
     } catch (error) {
         console.error('Error fetching products:', error);
+    }
+}
+
+async function updateQuantity(productId) {
+    const quantityInput = document.getElementById(`quantity-${productId}`).value;
+
+    const response = await fetch(`https://product-service-n5sp.onrender.com/products/${productId}`);
+    const data = await response.json();
+    const quantity = data.product['quantity'];
+
+    if (quantityInput > quantity) {
+        try {
+            const difference = quantityInput - quantity
+            const response = await fetch(`https://product-service-n5sp.onrender.com/products/${productId}/add_quantity`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: difference })
+            });
+
+            if (response.ok) {
+                alert('Item quantity has been updated')
+                fetchAndRenderStore()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    else if (quantityInput < quantity) {
+        try {
+            const difference = quantity - quantityInput
+            const response = await fetch(`https://product-service-n5sp.onrender.com/products/${productId}/remove_quantity`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: difference })
+            });
+
+            if (response.ok) {
+                alert('Item quantity has been updated')
+                fetchAndRenderStore()
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 
@@ -140,32 +192,35 @@ async function addProduct() {
 
 // Function to fetch and render cart items
 async function fetchAndRenderCart() {
+    const username = localStorage.getItem('username');
     try {
         let loadingTimeout = setTimeout(() => {
             document.getElementById('loading-message').style.display = 'block';
             document.getElementById('content').style.display = 'none';
         }, 1000);
 
-        const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
+        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}`);
         const data = await response.json();
 
         clearTimeout(loadingTimeout);
         document.getElementById('loading-message').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-        console.log("Cart fetched and rendered successfully");
 
         const cartItemsContainer = document.getElementById('cart-items-container');
         cartItemsContainer.innerHTML = '';
 
-        if ((Object.keys(data.items).length > 0)) {
-            const cartItems = Object.values(data.items);
-            cartItems.forEach(item => {
+        if (Object.keys(data.items).length > 0) {
+            const cartItems = Object.entries(data.items);
+            cartItems.forEach(([id, item]) => {
                 const cartItem = document.createElement('div');
                 cartItem.classList.add('bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'mb-4');
                 cartItem.innerHTML = `
-                    <p class="text-lg font-semibold">${item.name}</p>
-                    <p class="text-gray-600">Quantity: ${item.quantity}</p>
-                    <p class="text-gray-600">Price: $${item.price}</p>
+                    <div>
+                        <p class="text-lg font-semibold">${item.name}</p>
+                        <p class="text-gray-600">Quantity: ${item.quantity}</p>
+                        <p class="text-gray-600">Price: $${item.price}</p>
+                        <button class="remove-button" onclick="removeItem(${id}, '${username}', ${item.quantity})">Remove</button>
+                    </div>
                 `;
                 cartItemsContainer.appendChild(cartItem);
             });
@@ -187,6 +242,45 @@ async function fetchAndRenderCart() {
         }
     } catch (error) {
         console.error('Error fetching cart items:', error);
+    }
+}
+
+async function removeItem(itemId, username, itemQuantity) {
+    try {
+        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}/remove/${itemId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ quantity: itemQuantity })
+        });
+        if (response.ok) {
+            const cartButton = document.getElementById('cart-button');
+
+            try {
+                const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}`);
+                const data = await response.json();
+
+                if (data.items) {
+                    const itemCount = Object.keys(data.items).length;
+                    if (itemCount > 0) {
+                        cartButton.innerText = `Cart(${itemCount})`;
+                    } else {
+                        cartButton.innerText = 'Cart';
+                    }
+                } else {
+                    console.log("Did not see any items")
+                }
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
+        }
+        
+        const data = await response.json();
+        alert(data.message);
+        fetchAndRenderCart();
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -216,6 +310,9 @@ function switchView(view) {
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    await checkSession();
+
+    const username = localStorage.getItem('username');
     const loadingMessage = document.createElement('div');
     loadingMessage.id = 'loading-message';
     loadingMessage.innerText = "One sec while we wake up our servers...";
@@ -228,13 +325,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     }, 1000);
 
     try {
-        console.log("fetching store");
         await fetchAndRenderStore();
 
         clearTimeout(loadingTimeout);
         document.getElementById('loading-message').style.display = 'none';
         document.getElementById('content').style.display = 'block';
-        console.log("Store data fetched and rendered successfully");
     } catch (error) {
         // Handle error if fetching data fails
         clearTimeout(loadingTimeout);
@@ -245,8 +340,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const cartButton = document.getElementById('cart-button');
 
     try {
-        console.log('fetching cart')
-        const response = await fetch('https://cart-service-ei2j.onrender.com/cart/1');
+        const response = await fetch(`https://cart-service-ei2j.onrender.com/cart/${username}`);
         const data = await response.json();
 
         if (data.items) {
@@ -257,11 +351,54 @@ document.addEventListener('DOMContentLoaded', async function () {
                 cartButton.innerText = 'Cart';
             }
         } else {
-            console.log("Did not see any items")
+            console.log("Cart empty")
         }
-        console.log("Cart fetched successfully");
     } catch (error) {
         console.error('Error fetching cart items:', error);
     }
 
 });
+
+async function logout() {
+    try {
+        const response = await fetch(`https://login-1gyl.onrender.com/logout`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+
+        if (response.ok) {
+            await response.json();
+            localStorage.removeItem('username');
+            location.reload();
+        } else {
+            console.error('Error logging out: ', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error logging out:', error);
+    }
+}
+
+async function checkSession() {
+    try {
+        const response = await fetch('https://login-1gyl.onrender.com/check_session', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        const data = await response.json();
+
+        if (data.logged_in) {
+            localStorage.setItem('username', data.username);
+            const username = localStorage.getItem('username');
+            document.getElementById("name-title").innerText = username || "DominicVCUENG";
+
+            const logoutButton = '<button id="logout-button" onclick="logout()" class="text-center text-gray-600">Logout</button>';
+            const headerItems = document.getElementById('header-items')
+            headerItems.innerHTML += logoutButton;
+
+        } else {
+            window.location.href = "index.html";
+        }
+    } catch (error) {
+        console.error('Error checking session:', error);
+    }
+}

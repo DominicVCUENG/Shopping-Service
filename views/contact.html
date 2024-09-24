@@ -13,12 +13,12 @@
 <body class="bg-gray-100 font-sans vertical-lines-background">
     <!-- Header -->
     <header class="bg-white shadow-md">
-        <div class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
-            <h1 class="text-3xl font-bold text-gray-800">DominicVCUENG</h1>
-            <nav>
+        <div id='header-items' class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
+            <h1 id="name-title" class="text-3xl font-bold text-gray-800 title-elements"></h1>
+            <nav class="title-elements">
                 <ul class="flex space-x-4">
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Home</a></li>
-                    <li><a href="../index.html" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</a></li>
+                    <li><a href="../home.html" class="text-gray-800 hover:text-gray-600 leading-loose">Home</a></li>
+                    <li><a href="../home.html" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</a></li>
                     <li><a href="about.html" class="text-gray-800 hover:text-gray-600 leading-loose">About</a></li>
                     <li><a href="contact.html" class="text-gray-800 hover:text-gray-600 leading-loose">Contact</a></li>
                 </ul>
@@ -29,26 +29,31 @@
     <main class="container mx-auto my-8">
         <div id="content" class="container">
             <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
-    
+
             <div class="contact-info">
-                <p><i class="fas fa-paper-plane"></i> <a href="mailto:dominicmason60@gmail.com">dominicmason60@gmail.com</a></p>
+                <p><i class="fas fa-paper-plane"></i> <a
+                        href="mailto:dominicmason60@gmail.com">dominicmason60@gmail.com</a></p>
                 <p><i class="fas fa-phone-square"></i> <a href="tel:+18046596508">804-659-6508</a></p>
                 <div class="social-icons mt-4">
-                    <a href="https://www.facebook.com/dominic.mason.77/" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.linkedin.com/in/dominic-mason-/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://www.github.com/DominicVCUENG/" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="https://www.facebook.com/dominic.mason.77/" target="_blank" class="social-icon"><i
+                            class="fab fa-facebook"></i></a>
+                    <a href="https://www.linkedin.com/in/dominic-mason-/" target="_blank" class="social-icon"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://www.github.com/DominicVCUENG/" target="_blank" class="social-icon"><i
+                            class="fab fa-github"></i></a>
                 </div>
             </div>
-    
+
             <a href="../Dominic_Mason_Resume.pdf" download class="btn btn-primary mt-4">Download CV</a>
-    
+
             <form name="submit-to-google-sheet" autocomplete="on" class="mt-8">
                 <input type="text" name="Name" placeholder="Your Name" required autocomplete="on" class="input-field">
-                <input type="email" name="Email" placeholder="Your Email" required autocomplete="on" class="input-field">
+                <input type="email" name="Email" placeholder="Your Email" required autocomplete="on"
+                    class="input-field">
                 <textarea name="Message" rows="6" placeholder="Your Message" class="input-field"></textarea>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-    
+
             <span id="msg" class="mt-4"></span>
         </div>
     </main>
@@ -77,6 +82,54 @@
                 })
                 .catch(error => console.error('Error!', error.message))
         })
+
+        async function checkSession() {
+            try {
+                const response = await fetch('https://login-1gyl.onrender.com/check_session', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (data.logged_in) {
+                    localStorage.setItem('username', data.username);
+                    const username = localStorage.getItem('username');
+                    document.getElementById("name-title").innerText = username || "DominicVCUENG";
+
+                    const logoutButton = '<button id="logout-button" onclick="logout()" class="text-center text-gray-600">Logout</button>';
+                    const headerItems = document.getElementById('header-items')
+                    headerItems.innerHTML += logoutButton;
+
+                } else {
+                    window.location.href = "../index.html";
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+            }
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch(`https://login-1gyl.onrender.com/logout`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    await response.json();
+                    localStorage.removeItem('username');
+                    location.reload();
+                } else {
+                    console.error('Error logging out: ', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            checkSession();
+        });
     </script>
 </body>
 

@@ -10,61 +10,16 @@
 </head>
 
 <body class="bg-gray-100 font-sans vertical-lines-background">
-    <!-- Header -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto flex flex-wrap items-center justify-between py-4 px-4">
-            <h1 class="text-3xl font-bold text-gray-800">DominicVCUENG</h1>
-            <nav>
-                <ul class="flex flex-wrap space-x-4">
-                    <li><button onclick="switchView('store-view')" class="text-gray-800 hover:text-gray-600 leading-loose">Home</button></li>
-                    <li><button onclick="switchView('shopping-view')" class="text-gray-800 hover:text-gray-600 leading-loose">Shop</button></li>
-                    <li><a href="views/about.html" class="text-gray-800 hover:text-gray-600 leading-loose">About</a></li>
-                    <li><a href="views/contact.html" class="text-gray-800 hover:text-gray-600 leading-loose">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
     <!-- Main Content -->
     <main class="container mx-auto my-8">
         <div id="content" class="container">
-            <!-- Shopping View -->
-            <section id="shopping-view" class="mb-8 hidden">
-                <h2 class="text-2xl font-semibold mb-4">Shopping View</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="shopping-products-container">
-                    <!-- Product Cards will be dynamically added here -->
+            <section id="login-view" class="mx-auto my-8">
+                <h2 class="text-2xl font-semibold mb-4">Login</h2>
+                <div class="login-elements">
+                    <input type="text" id="username" placeholder="Enter your name" class="login-input shadow-md" autocomplete="on">
+                    <button onclick="login()" id="login-button" class="login-input">Login</button>
                 </div>
             </section>
-
-            <!-- Store View -->
-            <section id="store-view" class="mb-8">
-                <h2 class="text-2xl font-semibold mb-4">Store View</h2>
-                <div id="add-product-form">
-                    <input type="number" id="productID" placeholder="Product ID" class="add-product-input shadow-md">
-                    <input type="text" id="productName" placeholder="Product Name" class="add-product-input shadow-md">
-                    <input type="number" id="productPrice" placeholder="Product Price" class="add-product-input shadow-md">
-                    <input type="number" id="productQuantity" placeholder="Product Quantity" class="add-product-input shadow-md">
-                    <button onclick="addProduct()" id="productButton" class="add-product-input">Add Product</button>
-                </div>
-
-                <div id="store-products-container">
-                    <!-- Product Cards will be dynamically added here -->
-                </div>
-            </section>
-
-            <!-- Cart View -->
-            <section id="cart-view" class="mb-8 hidden">
-                <h2 class="text-2xl font-semibold mb-4">Your Cart</h2>
-                <div id="cart-items-container">
-                    <!-- Cart items will be dynamically added here -->
-                </div>
-            </section>
-
-            <div class="switch-view-btns">
-                <button onclick="switchView('store-view')">Store</button>
-                <button onclick="switchView('shopping-view')">Shopping</button>
-                <button id="cart-button" onclick="switchView('cart-view')">Cart</button>
-            </div>
         </div>
     </main>
 
@@ -76,7 +31,7 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="app.js"></script>
+    <script src="login.js"></script>
 </body>
 
 </html>

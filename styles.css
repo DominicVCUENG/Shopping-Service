@@ -1,3 +1,9 @@
+.store-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #add-product-form {
     text-align: center;
     margin: 30px 0px;
@@ -15,9 +21,9 @@
     background: repeating-linear-gradient(
         to right,
         #ffffff,
-        #ffffff 5px,  /* Adjusted for closer lines */
+        #ffffff 5px,
         #f7f7f8 5px,
-        #f7f7f8 10px  /* Adjusted for closer lines */
+        #f7f7f8 10px
     );
 }
 
@@ -41,7 +47,6 @@ main {
 
 .cart-item:not(:last-child) {
     border-bottom: 1px solid #d1d5db;
-    /* Tailwind's gray-300 */
 }
 
 #cart-items-list {
@@ -50,7 +55,7 @@ main {
 
 .about-paragraph {
     margin-top: 50px;
-    line-height: 1.6; /* Adjust as needed */
+    line-height: 1.6;
     margin-bottom: 2rem;
     font-style: italic;
 }
@@ -89,7 +94,7 @@ main {
 }
 
 .btn:hover {
-    background-color: #254F7B; /* Darker Facebook blue on hover */
+    background-color: #254F7B;
 }
 
 .input-field {
@@ -99,6 +104,75 @@ main {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.remove-button {
+    color:#5e8dec;
+    text-decoration: underline;
+}
+
+.remove-button:hover {
+    color: #254F7B;
+}
+
+.page-buttons {
+    text-decoration: underline;
+    padding: 10px;
+}
+
+.title-elements {
+    margin-right: 10px;
+}
+
+.quantity-input {
+    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-left: auto;   /* Push it to the right */
+    margin-bottom: 10px;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.quantity-button {
+    margin-left: auto;
+    width: 75%;
+    text-align: right;
+}
+
+.quantity-elements {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10%;
+}
+
+.login-input {
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 200px;
+    text-align: center;
+}
+
+#login-button {
+    background-color: #5e8dec;
+    color: rgb(240, 240, 255);
+}
+
+#login-button:hover {
+    background-color: #254F7B;
+    color: white;
 }
 
 textarea {
